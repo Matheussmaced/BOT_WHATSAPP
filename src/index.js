@@ -1,7 +1,9 @@
-const qrcode = require('qrcode-terminal');
+import qrcode from 'qrcode-terminal'
+import { Client } from 'whatsapp-web.js'
 
-const { Client } = require('whatsapp-web.js');
-const client = new Client();
+const client = new Client()
+
+const options = ['Pedra', 'Papel', 'Tesoura']
 
 // qr code
 client.on('qr', (qr) => {
@@ -15,19 +17,22 @@ client.on('ready', () => {
 
 // get menssage's
 client.on('message', (message) => {
-  console.log(message.body);
+  const messageVerification = message.body.toLocaleLowerCase()
 
-  if(message.body.toLocaleLowerCase().includes('bot')) {
-    message.reply(
-      'Olá, qual a sua pergunta? Lembrando que estou em fase de teste, pergunte por exemplo quanto é a derivada de x²'
-      )
+  if(messageVerification.includes('bot')) {
+    message.reply('Olá, tudo bem ? Vamos jogar pedra, papel e tesoura. Escreva uma das três opções.')
   }
-  if(message.body.includes('x²')) {
-    message.reply(
-      "A derivada de x² em relação a x é encontrada aplicando a regra da potência. Para uma função f(x) = x^n, a derivada f'(x) é calculada com nx^n-1. Para f(x) = x², aplicamos essa regra: f'(x) = 2x^2-1 = 2x. Então o resultado da derivada de x² em relação a x é 2x"
-    )
+
+  if(messageVerification.includes('pedra')
+    || messageVerification.includes('tesoura')
+    || messageVerification.includes('papel')
+  ){
+    const randomIndex = Math.floor(Math.random() * options.length)
+
+    message.reply(options[randomIndex])
+    console.log(options[randomIndex]);
   }
+
 });
-
 
 client.initialize();
