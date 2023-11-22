@@ -10,6 +10,7 @@ client.on('qr', (qr) => {
   qrcode.generate(qr, {small: true})
 })
 
+
 // connection success
 client.on('ready', () => {
   console.log('Client initiated!')
@@ -23,7 +24,8 @@ client.on('message', (message) => {
     message.reply('Olá, tudo bem ? Vamos jogar pedra, papel e tesoura. Escreva uma das três opções.')
   }
 
-  if(messageVerification.includes('pedra')
+  if(
+    messageVerification.includes('pedra')
     || messageVerification.includes('tesoura')
     || messageVerification.includes('papel')
   ){
